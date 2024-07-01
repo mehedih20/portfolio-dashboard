@@ -12,6 +12,10 @@ export const dashboardLinks = [
     route: "/projects",
   },
   {
+    name: "Skills",
+    route: "/skills",
+  },
+  {
     name: "Blogs",
     route: "/blogs",
   },

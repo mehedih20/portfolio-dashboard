@@ -4,11 +4,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { dashboardLinks } from "./DashboardData";
 import { IoMenu } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logoutUser } from "@/services/actions/logoutUser";
+import { getUserInfo, removeUser } from "@/services/auth.services";
+
+type TUserInfo = {
+  id: string;
+  email: string;
+  iat: number;
+  exp: number;
+};
 
 const DashboardDrawer = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState<TUserInfo>();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -22,7 +31,15 @@ const DashboardDrawer = ({ children }: { children: React.ReactNode }) => {
 
   const handleLogout = () => {
     logoutUser(router);
+    removeUser();
   };
+
+  useEffect(() => {
+    const user = getUserInfo();
+    if (user) {
+      setUserInfo(user as any);
+    }
+  }, []);
 
   return (
     <>
@@ -56,7 +73,7 @@ const DashboardDrawer = ({ children }: { children: React.ReactNode }) => {
               <IoMenu />
             </button>
             <p className="hidden lg:flex text-cyan-200 bg-gray-700 px-2 py-1 rounded-md font-semibold">
-              mehedih20@gmail.com
+              {userInfo?.email}
             </p>
             <button
               onClick={handleLogout}
@@ -65,7 +82,7 @@ const DashboardDrawer = ({ children }: { children: React.ReactNode }) => {
               Logout
             </button>
           </div>
-          <div className="bg-gray-50 flex-1">{children}</div>
+          <div className="bg-gray-50 flex-1 overflow-y-scroll">{children}</div>
         </div>
       </div>
       {/* Sidebar */}

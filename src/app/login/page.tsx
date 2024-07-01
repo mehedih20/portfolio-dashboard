@@ -14,8 +14,8 @@ type TFormInput = {
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<TFormInput>();
   const router = useRouter();
+  const { register, handleSubmit } = useForm<TFormInput>();
 
   const onSubmit: SubmitHandler<TFormInput> = async (data) => {
     setLoading(true);
