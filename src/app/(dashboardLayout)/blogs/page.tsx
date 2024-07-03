@@ -1,12 +1,24 @@
 "use client";
-import AddBlog from "@/components/dashboard/Blogs/AddBlog";
-import BlogsContent from "@/components/dashboard/Blogs/BlogsContent";
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { TiArrowBack } from "react-icons/ti";
 
 const BlogsPage = () => {
   const [isAddBlog, setIsAddBlog] = useState(false);
+  const AddBlog = dynamic(
+    () => import("@/components/dashboard/Blogs/AddBlog"),
+    {
+      ssr: false,
+    }
+  );
+
+  const BlogsContent = dynamic(
+    () => import("@/components/dashboard/Blogs/BlogsContent"),
+    {
+      ssr: false,
+    }
+  );
 
   return (
     <div className="px-4 pb-[100px]">
