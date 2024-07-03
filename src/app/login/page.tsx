@@ -51,13 +51,13 @@ const LoginPage = () => {
             className="flex flex-col gap-5 px-7"
           >
             <input
-              className="px-2 text-center py-3 rounded-md font-semibold text-gray-600 shadow-sm shadow-teal-600/50"
+              className="px-2 bg-gray-100 text-center py-3 rounded-md font-semibold text-gray-600 shadow-sm shadow-teal-600/50"
               type="email"
               placeholder="Email"
               {...register("email", { required: true })}
             />
             <input
-              className="px-2 text-center py-3 rounded-md font-semibold text-gray-600 shadow-sm shadow-teal-600/50"
+              className="px-2 bg-gray-100 text-center py-3 rounded-md font-semibold text-gray-600 shadow-sm shadow-teal-600/50"
               type="password"
               placeholder="Password"
               {...register("password", { required: true })}

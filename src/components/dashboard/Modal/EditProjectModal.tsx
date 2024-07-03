@@ -1,8 +1,6 @@
 import SmallSpinner from "@/components/Spinner/SmallSpinner";
-import {
-  useCreateProjectMutation,
-  useEditProjectMutation,
-} from "@/redux/features/projects/projectsApi";
+import { useEditProjectMutation } from "@/redux/features/projects/projectsApi";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -30,7 +28,7 @@ const EditProjectModal = ({
   item,
 }: TProps) => {
   const [editProject, { isLoading }] = useEditProjectMutation();
-  const { register, handleSubmit } = useForm<TFormInput>();
+  const { register, handleSubmit, setValue } = useForm<TFormInput>();
 
   const onSubmit: SubmitHandler<TFormInput> = async (data) => {
     const features = data.features.split(/\s*,\s*/);
@@ -46,7 +44,6 @@ const EditProjectModal = ({
     };
 
     try {
-      console.log(postData);
       const result = await editProject({
         projectId: item.id,
         data: postData,
@@ -61,6 +58,18 @@ const EditProjectModal = ({
     }
   };
 
+  useEffect(() => {
+    setValue("name", item?.name);
+    setValue("description", item?.description);
+    setValue("features", item?.features?.join(", "));
+    setValue("frontendTechnologies", item?.frontendTechnologies?.join(", "));
+    setValue("backendTechnologies", item?.backendTechnologies?.join(", "));
+    setValue("liveLink", item?.liveLink);
+    setValue("frontendRepo", item?.frontendRepo);
+    setValue("backendRepo", item?.backendRepo);
+    setValue("imageLinks", item?.imageLinks?.join(", "));
+  }, [item, setValue]);
+
   return (
     <div
       className={`${
@@ -69,7 +78,7 @@ const EditProjectModal = ({
     >
       <div className="w-[700px] h-fit rounded-md p-4 bg-gray-100">
         <h2 className="text-2xl font-semibold text-gray-700 mb-10">
-          Add Project
+          Edit Project
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-5">
@@ -78,7 +87,6 @@ const EditProjectModal = ({
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("name", { required: true })}
-              defaultValue={item?.name}
             />
           </div>
           <div className="mb-5">
@@ -88,38 +96,45 @@ const EditProjectModal = ({
             <textarea
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("description", { required: true })}
-              defaultValue={item?.description}
-            />
-          </div>
-          <div className="mb-5">
-            <p className="font-semibold text-gray-600 text-sm mb-2">Features</p>
-            <input
-              type="text"
-              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("features", { required: true })}
-              defaultValue={item?.features?.join(", ")}
             />
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Frontend Technologies
+              Features{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
+            </p>
+            <input
+              type="text"
+              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
+              {...register("features", { required: true })}
+            />
+          </div>
+          <div className="mb-5">
+            <p className="font-semibold text-gray-600 text-sm mb-2">
+              Frontend Technologies{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("frontendTechnologies", { required: true })}
-              defaultValue={item?.frontendTechnologies?.join(", ")}
             />
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Backend Technologies
+              Backend Technologies{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("backendTechnologies", { required: true })}
-              defaultValue={item?.backendTechnologies?.join(", ")}
             />
           </div>
           <div className="mb-5">
@@ -130,7 +145,6 @@ const EditProjectModal = ({
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("liveLink", { required: true })}
-              defaultValue={item?.liveLink}
             />
           </div>
           <div className="mb-5">
@@ -141,7 +155,6 @@ const EditProjectModal = ({
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("frontendRepo", { required: true })}
-              defaultValue={item?.frontendRepo}
             />
           </div>
           <div className="mb-5">
@@ -152,18 +165,19 @@ const EditProjectModal = ({
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("backendRepo", { required: true })}
-              defaultValue={item?.backendRepo}
             />
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Image Links
+              Image Links{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
               {...register("imageLinks", { required: true })}
-              defaultValue={item?.imageLinks?.join(", ")}
             />
           </div>
           <div className="grid grid-cols-2 gap-5 mb-5">

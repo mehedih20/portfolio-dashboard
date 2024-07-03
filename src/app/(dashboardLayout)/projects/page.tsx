@@ -4,13 +4,22 @@ import AddProjectModal from "@/components/dashboard/Modal/AddProjectModal";
 import SingleProject from "@/components/dashboard/SingleProject/SingleProject";
 import { useGetProjectsQuery } from "@/redux/features/projects/projectsApi";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 const ProjectsPage = () => {
   const [isAddProject, setIsAddProject] = useState(false);
-  const { data: projectsData, isLoading: dataLoading } =
-    useGetProjectsQuery(undefined);
+  const { data: projectsData, error, refetch } = useGetProjectsQuery(undefined);
+
+  useEffect(() => {
+    if (error) {
+      const retryTimeout = setTimeout(() => {
+        refetch();
+      }, 2000);
+
+      return () => clearTimeout(retryTimeout);
+    }
+  }, [error, refetch]);
 
   return (
     <div className="px-4 pb-[100px]">
@@ -23,7 +32,7 @@ const ProjectsPage = () => {
           <FaPlus className="-mt-1" /> Add Project
         </button>
       </div>
-      {dataLoading && <LargeSpinner />}
+      {!projectsData && <LargeSpinner />}
       <div className="xl:container mx-auto grid md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-10">
         {projectsData?.data?.map((item: any, index: number) => (
           <SingleProject key={index} item={item} />

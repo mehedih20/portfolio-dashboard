@@ -5,6 +5,6 @@ import { deleteCookie } from "./deleteCookie";
 export const logoutUser = (router: AppRouterInstance) => {
   localStorage.removeItem(authKey);
   deleteCookie(authKey);
-  router.push("/login");
   router.refresh();
+  router.push("/login");
 };

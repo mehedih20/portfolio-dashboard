@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import EditProjectModal from "../Modal/EditProjectModal";
 import { useDeleteProjectMutation } from "@/redux/features/projects/projectsApi";
 import { toast } from "sonner";
 import SmallSpinner from "@/components/Spinner/SmallSpinner";
+import EditProjectModal from "../Modal/EditProjectModal";
 
 const SingleProject = ({ item }: { item: any }) => {
   const [isEditProject, setIsEditProject] = useState(false);

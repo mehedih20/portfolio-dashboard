@@ -1,15 +1,29 @@
 "use client";
 import LargeSpinner from "@/components/Spinner/LargeSpinner";
 import AddSkillModal from "@/components/dashboard/Modal/AddSkillModal";
-import SingleSkill from "@/components/dashboard/Skils/SingleSkill";
+import SingleSkill from "@/components/dashboard/SingleSkill/SingleSkill";
 import { useGetSkillsQuery } from "@/redux/features/skills/skillsApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 const SkillsPage = () => {
   const [isAddSkill, setIsAddSkill] = useState(false);
-  const { data: skillsData, isLoading: dataLoading } =
-    useGetSkillsQuery(undefined);
+  const {
+    data: skillsData,
+    isLoading: dataLoading,
+    error,
+    refetch,
+  } = useGetSkillsQuery(undefined);
+
+  useEffect(() => {
+    if (error) {
+      const retryTimeout = setTimeout(() => {
+        refetch();
+      }, 2000);
+
+      return () => clearTimeout(retryTimeout);
+    }
+  }, [error, refetch]);
 
   return (
     <div className="px-4 pb-[100px]">
@@ -22,8 +36,8 @@ const SkillsPage = () => {
           <FaPlus className="-mt-1" /> Add Skill
         </button>
       </div>
+      {!skillsData && <LargeSpinner />}
       <div className="xl:container mx-auto">
-        {dataLoading && <LargeSpinner />}
         {skillsData?.data?.map((item: any, index: number) => (
           <SingleSkill key={item.id} item={item} index={index} />
         ))}

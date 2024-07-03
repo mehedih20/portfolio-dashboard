@@ -17,6 +17,14 @@ const skillsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["skills"],
     }),
+    editSkill: builder.mutation({
+      query: ({ skillId, data }) => ({
+        url: `/skills/${skillId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["skills"],
+    }),
     deleteSkill: builder.mutation({
       query: (skillId) => ({
         url: `/skills/${skillId}`,
@@ -30,5 +38,6 @@ const skillsApi = baseApi.injectEndpoints({
 export const {
   useGetSkillsQuery,
   useCreateSkillMutation,
+  useEditSkillMutation,
   useDeleteSkillMutation,
 } = skillsApi;

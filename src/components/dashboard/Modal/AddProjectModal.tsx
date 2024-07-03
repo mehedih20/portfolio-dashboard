@@ -79,7 +79,12 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
             />
           </div>
           <div className="mb-5">
-            <p className="font-semibold text-gray-600 text-sm mb-2">Features</p>
+            <p className="font-semibold text-gray-600 text-sm mb-2">
+              Features{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
+            </p>
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
@@ -88,7 +93,10 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Frontend Technologies
+              Frontend Technologies{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"
@@ -98,7 +106,10 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Backend Technologies
+              Backend Technologies{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"
@@ -138,7 +149,10 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
-              Image Links
+              Image Links{" "}
+              <span className="text-cyan-600 font-medium">
+                (separated by comma)
+              </span>
             </p>
             <input
               type="text"

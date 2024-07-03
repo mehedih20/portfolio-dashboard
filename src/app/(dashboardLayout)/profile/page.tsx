@@ -1,8 +1,13 @@
 "use client";
 import LargeSpinner from "@/components/Spinner/LargeSpinner";
-import { useGetUserProfileQuery } from "@/redux/features/user/userApi";
+import SmallSpinner from "@/components/Spinner/SmallSpinner";
+import {
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
+} from "@/redux/features/user/userApi";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProfile = {
   name: string;
@@ -18,37 +23,42 @@ type TProfile = {
 };
 
 const ProfilePage = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [updateUserProfile, { isLoading: updateLoading }] =
+    useUpdateUserProfileMutation();
   const { data: userData, isLoading: profileLoading } =
     useGetUserProfileQuery(undefined);
-  const [isEditing, setIsEditing] = useState(false);
   const profile = userData?.data?.UserProfile;
 
-  const { register, handleSubmit, reset } = useForm<TProfile>();
+  const { register, handleSubmit, setValue } = useForm<TProfile>();
 
-  const profileData = {
-    name: "John Doe",
-    age: "30",
-    description: "Software Developer",
-    designation: "Senior Developer",
-    userPhoto: "http://example.com/photo.jpg",
-    contactNumber: "1234567890",
-    facebookLink: "http://facebook.com/johndoe",
-    githubLink: "http://github.com/johndoe",
-    linkedinLink: "http://linkedin.com/in/johndoe",
-    location: "New York",
+  const onSubmit: SubmitHandler<TProfile> = async (data) => {
+    try {
+      const result = await updateUserProfile(data).unwrap();
+      if (result.success) {
+        toast.success(result.message);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+      console.error(err);
+    }
   };
 
   useEffect(() => {
-    // Prefill form values
-    reset(profileData);
-  }, []);
-
-  const onSubmit: SubmitHandler<TProfile> = (data) => {
-    console.log(data);
-  };
+    setValue("name", profile?.name);
+    setValue("age", profile?.age);
+    setValue("description", profile?.description);
+    setValue("designation", profile?.designation);
+    setValue("userPhoto", profile?.userPhoto);
+    setValue("contactNumber", profile?.contactNumber);
+    setValue("facebookLink", profile?.facebookLink);
+    setValue("githubLink", profile?.githubLink);
+    setValue("linkedinLink", profile?.linkedinLink);
+    setValue("location", profile?.location);
+  }, [profile, setValue]);
 
   return (
-    <div className="px-4">
+    <div className="px-4 pb-[100px]">
       <h2 className="text-3xl text-gray-600 pt-5 pb-10">Profile</h2>
       <div className="xl:container mx-auto">
         <div className={`${isEditing && "hidden"}`}>
@@ -61,7 +71,7 @@ const ProfilePage = () => {
               <p className="text-gray-700 text-xl mb-3 font-semibold">
                 Age: <span className="font-normal ml-2">{profile?.age}</span>
               </p>
-              <p className="text-gray-700 text-xl mb-3 font-semibold">
+              <p className="text-gray-700 text-xl mb-3 font-semibold whitespace-pre-wrap">
                 Description:{" "}
                 <span className="font-normal ml-2">{profile?.description}</span>
               </p>
@@ -111,93 +121,95 @@ const ProfilePage = () => {
 
         {/* Form */}
         <form
-          className={`max-w-[600px] pb-[100px] ${!isEditing && "hidden"}`}
+          className={`max-w-[800px] pb-[100px] ${!isEditing && "hidden"}`}
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
             <label>Name</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("name")}
+              {...register("name", { required: true })}
             />
           </div>
           <div>
             <label>Age</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("age")}
+              {...register("age", { required: true })}
             />
           </div>
           <div>
             <label>Description</label>
             <textarea
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
-              {...register("description")}
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
+              {...register("description", { required: true })}
+              rows={10}
             />
           </div>
           <div>
             <label>Designation</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("designation")}
+              {...register("designation", { required: true })}
             />
           </div>
           <div>
             <label>User Photo</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("userPhoto")}
+              {...register("userPhoto", { required: true })}
             />
           </div>
           <div>
             <label>Contact Number</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("contactNumber")}
+              {...register("contactNumber", { required: true })}
             />
           </div>
           <div>
             <label>Facebook Link</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("facebookLink")}
+              {...register("facebookLink", { required: true })}
             />
           </div>
           <div>
             <label>Github Link</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("githubLink")}
+              {...register("githubLink", { required: true })}
             />
           </div>
           <div>
             <label>LinkedIn Link</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("linkedinLink")}
+              {...register("linkedinLink", { required: true })}
             />
           </div>
           <div>
             <label>Location</label>
             <input
-              className="border w-full block py-2 px-2 mb-5 shadow-sm"
+              className="border bg-gray-100 text-gray-700 w-full block py-2 px-2 mb-5 shadow-sm"
               type="text"
-              {...register("location")}
+              {...register("location", { required: true })}
             />
           </div>
           <div className="flex items-center gap-5">
             <button
-              className="bg-teal-600 hover:bg-teal-800 transition-all duration-300 ease-in-out rounded-md font-semibold text-gray-100 py-2 w-[150px]"
+              className="flex justify-center items-center gap-1 bg-teal-600 hover:bg-teal-800 transition-all duration-300 ease-in-out rounded-md font-semibold text-gray-100 py-2 w-[150px]"
               type="submit"
             >
+              {updateLoading && <SmallSpinner />}
               Submit
             </button>
             <button
