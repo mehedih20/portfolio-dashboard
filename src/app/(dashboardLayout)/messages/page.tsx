@@ -25,13 +25,13 @@ const MessagesPage = () => {
         {messagesData?.data?.map((item: any) => {
           return (
             <div key={item.id} className="bg-gray-200 p-4 rounded-md mb-5">
-              <h2 className="mb-2">
+              <h2 className="mb-2 text-gray-800">
                 <span className="font-semibold">Name:</span> {item.name}
               </h2>
-              <p className="mb-2">
+              <p className="mb-2 text-gray-800">
                 <span className="font-semibold">Email:</span> {item.email}
               </p>
-              <p className="bg-gray-100 min-h-20 p-2 rounded-md">
+              <p className="bg-gray-100 text-gray-800 min-h-20 p-2 rounded-md">
                 {item.message}
               </p>
             </div>
