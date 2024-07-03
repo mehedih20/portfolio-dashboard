@@ -32,14 +32,20 @@ const SingleProject = ({ item }: { item: any }) => {
 
   return (
     <>
-      <div key={item.id} className="mb-5 shadow-sm shadow-cyan-600 rounded-md">
-        <Image
-          src={item.imageLinks[0]}
-          alt={item.name}
-          width={500}
-          height={200}
-        />
-        <div className="p-4">
+      <div
+        key={item.id}
+        className="bg-gray-200 mb-5 shadow-sm shadow-cyan-600 rounded-md p-4"
+      >
+        <div className="h-[240px] md:h-[280px] mb-5 rounded-md overflow-hidden">
+          <Image
+            src={item.imageLinks[0]}
+            alt={item.name}
+            width={500}
+            height={200}
+            className="h-full"
+          />
+        </div>
+        <div>
           <h3 className="mb-5 text-xl font-semibold text-gray-700">
             {item.name}
           </h3>

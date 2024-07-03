@@ -19,4 +19,8 @@ export const dashboardLinks = [
     name: "Blogs",
     route: "/blogs",
   },
+  {
+    name: "Messages",
+    route: "/messages",
+  },
 ];
