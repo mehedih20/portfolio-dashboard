@@ -33,7 +33,7 @@ const ProjectsPage = () => {
         </button>
       </div>
       {!projectsData && <LargeSpinner />}
-      <div className="xl:container mx-auto grid md:grid-cols-2  xl:grid-cols-3 gap-10">
+      <div className="xl:container mx-auto grid sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-4 gap-7">
         {projectsData?.data?.map((item: any, index: number) => (
           <SingleProject key={index} item={item} />
         ))}

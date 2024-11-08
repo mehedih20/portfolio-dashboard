@@ -6,10 +6,12 @@ import { toast } from "sonner";
 type TFormInput = {
   name: string;
   description: string;
+  projectType: string;
   features: string;
   frontendTechnologies: string;
   backendTechnologies: string;
   liveLink: string;
+  documentationLink?: string;
   frontendRepo: string;
   backendRepo: string;
   imageLinks: string;
@@ -71,6 +73,16 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
+              Project Type
+            </p>
+            <input
+              type="text"
+              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
+              {...register("projectType", { required: true })}
+            />
+          </div>
+          <div className="mb-5">
+            <p className="font-semibold text-gray-600 text-sm mb-2">
               Description
             </p>
             <textarea
@@ -78,6 +90,7 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
               {...register("description", { required: true })}
             />
           </div>
+
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
               Features{" "}
@@ -88,7 +101,7 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("features", { required: true })}
+              {...register("features", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -101,7 +114,7 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("frontendTechnologies", { required: true })}
+              {...register("frontendTechnologies", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -114,7 +127,7 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("backendTechnologies", { required: true })}
+              {...register("backendTechnologies", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -129,12 +142,22 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
+              Documentation Link
+            </p>
+            <input
+              type="url"
+              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
+              {...register("documentationLink", { required: false })}
+            />
+          </div>
+          <div className="mb-5">
+            <p className="font-semibold text-gray-600 text-sm mb-2">
               Frontend Repo
             </p>
             <input
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("frontendRepo", { required: true })}
+              {...register("frontendRepo", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -144,7 +167,7 @@ const AddProjectModal = ({ isAddProject, setIsAddProject }: TProps) => {
             <input
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("backendRepo", { required: true })}
+              {...register("backendRepo", { required: false })}
             />
           </div>
           <div className="mb-5">

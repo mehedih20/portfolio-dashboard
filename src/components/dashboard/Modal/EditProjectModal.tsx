@@ -6,11 +6,13 @@ import { toast } from "sonner";
 
 type TFormInput = {
   name: string;
+  projectType: string;
   description: string;
   features: string;
   frontendTechnologies: string;
   backendTechnologies: string;
   liveLink: string;
+  documentationLink?: string;
   frontendRepo: string;
   backendRepo: string;
   imageLinks: string;
@@ -60,11 +62,13 @@ const EditProjectModal = ({
 
   useEffect(() => {
     setValue("name", item?.name);
+    setValue("projectType", item?.projectType);
     setValue("description", item?.description);
     setValue("features", item?.features?.join(", "));
     setValue("frontendTechnologies", item?.frontendTechnologies?.join(", "));
     setValue("backendTechnologies", item?.backendTechnologies?.join(", "));
     setValue("liveLink", item?.liveLink);
+    setValue("documentationLink", item?.documentationLink);
     setValue("frontendRepo", item?.frontendRepo);
     setValue("backendRepo", item?.backendRepo);
     setValue("imageLinks", item?.imageLinks?.join(", "));
@@ -91,6 +95,16 @@ const EditProjectModal = ({
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
+              Project Type
+            </p>
+            <input
+              type="text"
+              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
+              {...register("projectType", { required: true })}
+            />
+          </div>
+          <div className="mb-5">
+            <p className="font-semibold text-gray-600 text-sm mb-2">
               Description
             </p>
             <textarea
@@ -108,7 +122,7 @@ const EditProjectModal = ({
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("features", { required: true })}
+              {...register("features")}
             />
           </div>
           <div className="mb-5">
@@ -121,7 +135,7 @@ const EditProjectModal = ({
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("frontendTechnologies", { required: true })}
+              {...register("frontendTechnologies")}
             />
           </div>
           <div className="mb-5">
@@ -134,7 +148,7 @@ const EditProjectModal = ({
             <input
               type="text"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("backendTechnologies", { required: true })}
+              {...register("backendTechnologies", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -149,12 +163,22 @@ const EditProjectModal = ({
           </div>
           <div className="mb-5">
             <p className="font-semibold text-gray-600 text-sm mb-2">
+              Documentation Link
+            </p>
+            <input
+              type="url"
+              className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
+              {...register("documentationLink", { required: false })}
+            />
+          </div>
+          <div className="mb-5">
+            <p className="font-semibold text-gray-600 text-sm mb-2">
               Frontend Repo
             </p>
             <input
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("frontendRepo", { required: true })}
+              {...register("frontendRepo", { required: false })}
             />
           </div>
           <div className="mb-5">
@@ -164,7 +188,7 @@ const EditProjectModal = ({
             <input
               type="url"
               className="bg-gray-100 border-2 border-gray-300 p-3 w-full rounded-md overflow-hidden"
-              {...register("backendRepo", { required: true })}
+              {...register("backendRepo", { required: false })}
             />
           </div>
           <div className="mb-5">

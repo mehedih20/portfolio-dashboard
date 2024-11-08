@@ -32,11 +32,8 @@ const SingleProject = ({ item }: { item: any }) => {
 
   return (
     <>
-      <div
-        key={item.id}
-        className="bg-gray-200 mb-5 shadow-sm shadow-cyan-600 rounded-md p-4"
-      >
-        <div className="h-[240px] md:h-[280px] mb-5 rounded-md overflow-hidden">
+      <div key={item.id} className="mb-5 shadow-md shadow-cyan-800 rounded-md">
+        <div className="h-[200px] md:h-[220px] border border-b-gray-300 mb-3 rounded-md overflow-hidden">
           <Image
             src={item.imageLinks[0]}
             alt={item.name}
@@ -45,20 +42,20 @@ const SingleProject = ({ item }: { item: any }) => {
             className="h-full"
           />
         </div>
-        <div>
+        <div className="px-3 pb-3">
           <h3 className="mb-5 text-xl font-semibold text-gray-700">
             {item.name}
           </h3>
           <div className="grid grid-cols-2 gap-5">
             <button
               onClick={() => setIsEditProject(true)}
-              className="bg-cyan-600 hover:bg-cyan-700 transition-all duration-300 ease-in-out rounded-md py-2 text-gray-100 font-semibold"
+              className="bg-cyan-700 hover:bg-cyan-900 transition-all duration-300 ease-in-out rounded-xl py-1 text-gray-100 font-semibold"
             >
               Edit
             </button>
             <button
               onClick={handleDeleteProject}
-              className="flex justify-center items-center bg-red-500 hover:bg-red-700 transition-all duration-300 ease-in-out rounded-md py-2 text-gray-100 font-semibold"
+              className="flex justify-center items-center bg-red-500 hover:bg-red-700 transition-all duration-300 ease-in-out rounded-xl py-1 text-gray-100 font-semibold"
             >
               {isLoading && <SmallSpinner />} Delete
             </button>
